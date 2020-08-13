@@ -36,15 +36,18 @@ while True:
     title = soup.select_one("#firstHeading").get_text()
     titles.append(title)
     if title == TARGET_TITLE:  # First break condition, if Philosophy is already reached
+        print("Reached Philosophy!")
         break
     if titles.count(title) >= THRESHOLD:  # Infinite loop detector
+        print("Infinite Loop Detected!")
         break
     # After doing a little bit of inspection the following id was found to encapsulate the main body paragraphs
     # Intuitively it is going to be our root tag, we will start searching for hyper links from there.
     root = soup.select_one('#mw-content-text')
     # loop function is documented above
     href = loop(root)
-    if href is None:    # In case no hyper links were found
+    if href is None:  # In case no hyper links were found
+        print("No hyperlinks found in the current article!")
         break
-    url = domain + href     # Retrieved hyper links lack the domain part, we are fixing that here
+    url = domain + href  # Retrieved hyper links lack the domain part, we are fixing that here
     time.sleep(0.5)
